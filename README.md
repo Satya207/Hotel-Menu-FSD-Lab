@@ -38,3 +38,11 @@ This project helped improve:
 
 ## Note
 This project was created as part of academic lab exercises and gradually improved throughout the learning process.
+
+## Screenshots
+
+### Responsive restaurant menu layout with categorized food sections, user-friendly interface and quantity controls
+![Hotel Menu Page](hotel-menu-page.png)
+
+### Dynamic grand total calculation and bill generation system
+![Hotel Bill Generation Page](hotel-menu-page-with-generated-bill.png)
