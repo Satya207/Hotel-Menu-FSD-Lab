@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jo's Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --saddle: #8B4513;
+    --saddle-dark: #6B3410;
+    --saddle-light: #A0522D;
+    --beige: #F5F0E8;
+    --beige-dark: #E8DFD0;
+    --beige-mid: #D4C4A8;
+    --beige-deep: #C8B49A;
+    --cream: #FDFAF5;
+    --text: #3B2010;
+    --red: #922B21;
+    --green: #1E5631;
+    --card-shadow: 0 4px 24px rgba(139,69,19,0.12);
+  }
+
+  body {
+    background: var(--beige);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--saddle-dark) 0%, var(--saddle) 55%, var(--saddle-light) 100%);
+    text-align: center;
+    padding: 2.4rem 1rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F5F0E8' fill-opacity='0.05'%3E%3Cpath d='M50 50v-10h-4v10h-10v4h10v10h4v-10h10v-4H50zm0-40V0h-4v10H36v4h10v10h4V14h10v-4H50zM10 50v-10H6v10H-4v4h10v10h4v-10h10v-4H10zM10 10V0H6v10H-4v4h10v10h4V14h10v-4H10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .header-inner { position: relative; }
+  .header-ornament { font-size: 1.2rem; color: var(--beige-mid); letter-spacing: 0.5rem; margin-bottom: 0.3rem; }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    color: var(--cream);
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+  .header-line {
+    display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 0.5rem;
+  }
+  .header-line::before, .header-line::after {
+    content: ''; width: 60px; height: 1px; background: var(--beige-deep); opacity: 0.6;
+  }
+  .header-line span { color: var(--beige-deep); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+  /* GRID */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* CARD */
+  .category-card {
+    background: var(--cream);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--beige-dark);
+    transition: transform 0.22s, box-shadow 0.22s;
+  }
+  .category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 36px rgba(139,69,19,0.18);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, var(--saddle) 0%, var(--saddle-dark) 100%);
+    padding: 0.9rem 1.2rem;
+    text-align: center;
+  }
+  .card-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .card-image {
+    width: 100%; height: 175px; object-fit: cover; display: block;
+    filter: brightness(0.97) saturate(0.9);
+  }
+
+  .card-subtitle {
+    background: var(--beige-dark);
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--saddle);
+    border-bottom: 1px solid var(--beige-mid);
+  }
+
+  .card-items {
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.48rem;
+    flex: 1;
+    background: var(--cream);
+  }
+
+  .item-row { display: flex; align-items: center; gap: 0.5rem; }
+
+  .item-bullet {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--saddle); flex-shrink: 0; opacity: 0.7;
+  }
+
+  .item-name-price {
+    flex: 1;
+    background: linear-gradient(135deg, var(--saddle-light), var(--saddle-dark));
+    color: var(--cream);
+    font-size: 0.76rem;
+    font-weight: 500;
+    padding: 0.42rem 0.8rem;
+    border-radius: 7px;
+  }
+
+  .item-name-price a {
+    color: var(--cream);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .item-name-price a:hover {
+    text-decoration: underline;
+    opacity: 0.85;
+  }
+
+  .qty-controls { display: flex; align-items: center; gap: 0.28rem; flex-shrink: 0; }
+
+  .qty-btn {
+    width: 26px; height: 26px; border: none; border-radius: 6px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s, filter 0.1s; line-height: 1;
+    font-family: 'Poppins', sans-serif;
+  }
+  .qty-btn:active { transform: scale(0.88); }
+  .btn-minus { background: var(--red); color: #fff; }
+  .btn-plus  { background: var(--green); color: #fff; }
+  .btn-minus:hover, .btn-plus:hover { filter: brightness(1.15); }
+
+  .qty-display { width: 22px; text-align: center; font-size: 0.82rem; font-weight: 600; color: var(--text); }
+
+  /* TOTAL BAR */
+  .total-bar {
+    position: sticky; bottom: 0;
+    background: linear-gradient(135deg, var(--saddle-dark) 0%, var(--saddle) 100%);
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem;
+    box-shadow: 0 -4px 20px rgba(107,52,16,0.25);
+    z-index: 100; flex-wrap: wrap;
+  }
+
+  .total-label { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--cream); }
+
+  .total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem; color: var(--cream); font-weight: 700;
+    background: rgba(245,240,232,0.15);
+    padding: 0.2rem 1.2rem; border-radius: 30px;
+    border: 2px solid rgba(245,240,232,0.3);
+    min-width: 120px; text-align: center;
+  }
+
+  .btn-order {
+    background: var(--beige); color: var(--saddle-dark); border: none;
+    padding: 0.6rem 1.8rem; border-radius: 30px;
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 0.84rem; cursor: pointer; letter-spacing: 0.04em;
+    transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .btn-order:hover { background: var(--cream); transform: scale(1.04); }
+
+  /* BILL SECTION */
+  .bill-section {
+    max-width: 500px;
+    margin: 2rem auto;
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--beige-dark);
+    display: none;
+  }
+  .bill-section h2 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    color: var(--saddle-dark);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+  .bill-section hr { border-color: var(--beige-mid); margin: 0.8rem 0; }
+  .bill-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .bill-table th {
+    background: var(--saddle);
+    color: var(--cream);
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  .bill-table td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--beige-dark); }
+  .bill-table tr:last-child td { border-bottom: none; }
+  .bill-total {
+    font-family: 'Playfair Display', serif;
+    text-align: right;
+    font-size: 1.1rem;
+    color: var(--saddle-dark);
+    margin-top: 0.8rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) { .menu-grid { grid-template-columns: repeat(2, 1fr); padding: 1rem; } }
+  @media (max-width: 560px) { .menu-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-ornament">✦ ✦ ✦</div>
+    <h1>Jo's Kitchen</h1>
+    <div class="header-line"><span>Authentic South Indian Cuisine</span></div>
+  </div>
+</header>
+
+<div class="menu-grid">
+
+  <!-- 1. IDLI -->
+  <div class="category-card">
+    <div class="card-header"><h2>1. Idli</h2></div>
+    <img class="card-image" src="https://spicecravings.com/wp-content/uploads/2020/06/Idli-3.jpg" alt="Idli">
+    <div class="card-subtitle">Types of Idli</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="carrotidli.html">Carrot Idli</a> — ₹40</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 40, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 40, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="beetrootidli.html">Beetroot Idli</a> — ₹30</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 30, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 30, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="sambharidli.html">Sambhar Idli</a> — ₹50</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 50, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 50, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. DOSA -->
+  <div class="category-card">
+    <div class="card-header"><h2>2. Dosa</h2></div>
+    <img class="card-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp5t85ZQE9Vg16vjoKdUgsa71srbrBjskRIg&s" alt="Dosa">
+    <div class="card-subtitle">Types of Dosa</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="gheedosa.html">Ghee Dosa</a> — ₹40</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 40, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 40, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="ravadosa.html">Rava Dosa</a> — ₹35</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 35, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 35, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="eggdosa.html">Egg Dosa</a> — ₹45</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 45, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 45, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="masaladosa.html">Masala Dosa</a> — ₹50</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 50, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 50, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. VADA -->
+  <div class="category-card">
+    <div class="card-header"><h2>3. Vada</h2></div>
+    <img class="card-image" src="https://www.cookshideout.com/wp-content/uploads/2014/03/Instant-Vada_New_2S.jpg" alt="Vada">
+    <div class="card-subtitle">Types of Vada</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="methivada.html">Methi Vada</a> — ₹35</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 35, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 35, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="dahivada.html">Dahi Vada</a> — ₹30</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 30, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 30, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. UPMA -->
+  <div class="category-card">
+    <div class="card-header"><h2>4. Upma</h2></div>
+    <img class="card-image" src="https://c.ndtvimg.com/2021-03/2au1mv18_upma_625x300_10_March_21.jpeg" alt="Upma">
+    <div class="card-subtitle">Types of Upma</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="carrotupma.html">Carrot Upma</a> — ₹45</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 45, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 45, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="tomatoupma.html">Tomato Upma</a> — ₹35</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 35, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 35, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="mixveggieupma.html">Mixed Vegetable Upma</a> — ₹40</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 40, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 40, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PESARATTU -->
+  <div class="category-card">
+    <div class="card-header"><h2>5. Pesarattu</h2></div>
+    <img class="card-image" src="https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1270/https://mildlyindian.com/wp-content/uploads/2019/05/pesarattu-dosa.jpg" alt="Pesarattu">
+    <div class="card-subtitle">Types of Pesarattu</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="onionpesarottu.html">Onion Pesarattu</a> — ₹60</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 60, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 60, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="pesarottuupma.html">Pesarattu Upma</a> — ₹50</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 50, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 50, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CHICKEN BIRYANI -->
+  <div class="category-card">
+    <div class="card-header"><h2>6. Chicken Biryani</h2></div>
+    <img class="card-image" src="https://biriyanizone.com/images/763x848_img1.png" alt="Chicken Biryani">
+    <div class="card-subtitle">Types of Chicken Biryani</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="chickendumbiryani.html">Chicken Dum Biryani</a> — ₹350</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 350, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 350, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="chickenfrybiryani.html">Chicken Fry Biryani</a> — ₹450</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 450, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 450, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. MUTTON BIRYANI -->
+  <div class="category-card">
+    <div class="card-header"><h2>7. Mutton Biryani</h2></div>
+    <img class="card-image" src="https://www.licious.in/blog/wp-content/uploads/2022/06/mutton-hyderabadi-biryani-01.jpg" alt="Mutton Biryani">
+    <div class="card-subtitle">Types of Mutton Biryani</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="muttonbiryani.html">Special Mutton Biryani</a> — ₹650</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 650, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 650, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="mughlaimuttonbiryani.html">Mughlai Mutton Biryani</a> — ₹750</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 750, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 750, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. PRAWNS BIRYANI -->
+  <div class="category-card">
+    <div class="card-header"><h2>8. Prawns Biryani</h2></div>
+    <img class="card-image" src="https://www.archanaskitchen.com/_next/image?url=https%3A%2F%2Fimages.archanaskitchen.com%2Fimages%2Frecipes%2Findian%2Fmain-course%2Findian-rice-recipes%2Fbiryani-recipes%2FPrawns_Biryani_e0669b2cbd.jpg&w=1920&q=90" alt="Prawns Biryani">
+    <div class="card-subtitle">Types of Prawns Biryani</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="prawnsbiryani.html">Special Prawns Biryani</a> — ₹495</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 495, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 495, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. NON-VEG CURRIES -->
+  <div class="category-card">
+    <div class="card-header"><h2>9. Non-Veg Curries</h2></div>
+    <img class="card-image" src="https://img.traveltriangle.com/blog/wp-content/uploads/2021/12/Best-Non-Veg-Restaurants-in-Mumbai.jpg" alt="Non-Veg Curries">
+    <div class="card-subtitle">Types of Non-Veg Curries</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="chickencurry.html">Chicken Curry</a> — ₹400</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 400, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 400, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="fishcurry.html">Fish Curry</a> — ₹345</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 345, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 345, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="prawnscurry.html">Prawns Curry</a> — ₹360</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 360, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 360, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="muttoncurry.html">Mutton Curry</a> — ₹570</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 570, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 570, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. VEG CURRIES -->
+  <div class="category-card">
+    <div class="card-header"><h2>10. Veg Curries</h2></div>
+    <img class="card-image" src="https://i0.wp.com/theyellowdaal.com/wp-content/uploads/2020/11/photoart.collagemaker.picgrid.edit_.photoframe_2020118232437766-1.png?fit=1080%2C1080&ssl=1" alt="Veg Curries">
+    <div class="card-subtitle">Types of Veg Curries</div>
+    <div class="card-items">
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="paneercurry.html">Paneer Curry</a> — ₹250</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 250, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 250, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="mushroomcurry.html">Mushroom Curry</a> — ₹350</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 350, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 350, 1)">+</button>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-bullet"></div>
+        <div class="item-name-price"><a href="babycorncurry.html">BabyCorn Curry</a> — ₹340</div>
+        <div class="qty-controls">
+          <button class="qty-btn btn-minus" onclick="changeQty(this, 340, -1)">−</button>
+          <span class="qty-display">0</span>
+          <button class="qty-btn btn-plus" onclick="changeQty(this, 340, 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end menu-grid -->
+
+<!-- TOTAL BAR -->
+<div class="total-bar">
+  <span class="total-label">Grand Total:</span>
+  <span class="total-amount">₹ <span id="grandTotal">0</span></span>
+  <button class="btn-order" onclick="generateBill()">Submit Order</button>
+</div>
+
+<!-- BILL SECTION -->
+<div class="bill-section" id="billSection">
+  <h2>⭐ Jo's Kitchen ⭐</h2>
+  <hr>
+  <div id="billContent"></div>
+</div>
+
+<script>
+let total = 0;
+let selectedItems = [];
+
+function changeQty(button, price, change) {
+  let qtySpan = button.parentElement.querySelector(".qty-display");
+  let currentQty = parseInt(qtySpan.innerText);
+  let itemName = button.closest('.item-row').querySelector("a").innerText;
+
+  if (currentQty + change >= 0) {
+    qtySpan.innerText = currentQty + change;
+    total += price * change;
+    document.getElementById("grandTotal").innerText = total;
+
+    let itemIndex = selectedItems.findIndex(item => item.name === itemName);
+    if (itemIndex !== -1) {
+      selectedItems[itemIndex].qty += change;
+      if (selectedItems[itemIndex].qty <= 0) {
+        selectedItems.splice(itemIndex, 1);
+      }
+    } else if (change > 0) {
+      selectedItems.push({ name: itemName, price: price, qty: 1 });
+    }
+  }
+}
+
+function generateBill() {
+  if (selectedItems.length === 0) {
+    alert("Please select at least one item.");
+    return;
+  }
+
+  let rows = selectedItems.map(item =>
+    `<tr>
+      <td>${item.name}</td>
+      <td style="text-align:center">${item.qty}</td>
+      <td style="text-align:right">₹${item.price * item.qty}</td>
+    </tr>`
+  ).join('');
+
+  document.getElementById("billContent").innerHTML = `
+    <table class="bill-table">
+      <thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Cost</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <hr>
+    <div class="bill-total">Grand Total: ₹${total}</div>
+  `;
+
+  const bill = document.getElementById("billSection");
+  bill.style.display = "block";
+  bill.scrollIntoView({ behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
